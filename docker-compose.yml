@@ -1,0 +1,26 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: "postgresql://user:password@db:5432/mydb"
+    restart: unless-stopped
+
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: mydb
+      POSTGEES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
